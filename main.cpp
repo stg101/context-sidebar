@@ -64,18 +64,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
                    MB_ICONEXCLAMATION | MB_OK);
         return 0;
     }
-    // WS_EX_PALETTEWINDOW
+
+    hwnd = createAppWindow(g_szClassName, hInstance, 200);
 
     // Step 2: Creating the Window
-    hwnd = CreateWindowEx(
-        WS_EX_PALETTEWINDOW,
-        g_szClassName,
-        L"The title of my window",
-        WS_OVERLAPPEDWINDOW,
-        10, 10, 200, 700,
-        NULL, NULL, hInstance, NULL);
-
-    // -10, 0, 200, 1032,
 
     if (hwnd == NULL)
     {

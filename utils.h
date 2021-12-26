@@ -18,4 +18,6 @@ void CALLBACK WinEventProc(
     DWORD dwEventThread,
     DWORD dwmsEventTime);
 
-void resize();
+RECT resize(int left);
+
+HWND createAppWindow(const wchar_t *g_szClassName, HINSTANCE hInstance, int width);

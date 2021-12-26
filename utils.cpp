@@ -48,19 +48,33 @@ void CALLBACK WinEventProc(
     }
 }
 
-void resize()
+RECT resize(int left)
 {
-    // work area reduce
     RECT workarea;
-
-    // Get the current work area
     SystemParametersInfo(SPI_GETWORKAREA, 0, &workarea, 0);
-
-    // modify 'workarea' here: either subtract your application's
-    // space (after starting up) or add it back in (before terminating)
-    workarea.left = 0;
-
-    // Set the new work area and broadcast the change to all running applications
-    // SystemParametersInfo(SPI_SETWORKAREA, 0, &workarea, SPIF_SENDCHANGE);
+    workarea.left = left;
     SystemParametersInfo(SPI_SETWORKAREA, 0, &workarea, SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE);
+
+    return workarea;
+}
+
+HWND createAppWindow(const wchar_t *g_szClassName, HINSTANCE hInstance, int width)
+{
+    RECT workarea;
+    SystemParametersInfo(SPI_GETWORKAREA, 0, &workarea, 0);
+    workarea.left = width;
+    SystemParametersInfo(SPI_SETWORKAREA, 0, &workarea, SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE);
+
+    HWND hwnd = CreateWindowEx(
+        WS_EX_PALETTEWINDOW,
+        g_szClassName,
+        L"The title of my window",
+        WS_OVERLAPPEDWINDOW,
+        0,
+        workarea.top,
+        width,
+        workarea.bottom - workarea.top,
+        NULL, NULL, hInstance, NULL);
+
+    return hwnd;
 }
