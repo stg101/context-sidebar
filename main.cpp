@@ -7,6 +7,7 @@
 #include <iostream>
 
 #include "utils.h"
+#include "texts.h"
 
 ///////////////////////////////////////////////////////////////////////////
 // create window
@@ -26,22 +27,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
         break;
     case WM_PAINT:
     {
-        PAINTSTRUCT ps;
-        HDC hdc = BeginPaint(hwnd, &ps);
 
-        HFONT hFont = CreateFont(14, 0, 0, 0, FW_MEDIUM, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_OUTLINE_PRECIS,
-                                 CLIP_DEFAULT_PRECIS, PROOF_QUALITY, VARIABLE_PITCH, TEXT("Segoe UI"));
-
-        SelectObject(hdc, hFont);
-
-        const COLORREF textColor = RGB(255, 0, 0);
-        const COLORREF bgcolor = RGB(37, 37, 38);
-        SetTextColor(hdc, textColor);
-        SetBkColor(hdc, bgcolor);
-
-        TextOut(hdc, 5, 5, L"Te amo Ani", 10);
-
-        EndPaint(hwnd, &ps);
+        print_chrome_texts(hwnd);
     }
 
     break;
@@ -87,10 +74,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     }
 
     hwnd = createAppWindow(g_szClassName, hInstance, 100);
-
-    HWND hwndButton = CreateWindow(L"BUTTON", L"OK", WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
-                                   10, 200, 30, 20, hwnd, NULL,
-                                   (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE), NULL);
 
     // Step 2: Creating the Window
 
