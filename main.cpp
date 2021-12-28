@@ -66,6 +66,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
     wc.hbrBackground = CreateSolidBrush(RGB(37, 37, 38));
 
+    read_json();
+
     if (!RegisterClassEx(&wc))
     {
         MessageBox(NULL, L"Window Registration Failed!", L"Error!",
