@@ -1,31 +1,68 @@
 #include "texts.h"
 
+void TextStyle::print(wchar_t *text, int len, RECT rect)
+{
+    SelectObject(hdc, hFont);
+    SetTextColor(hdc, textColor);
+    SetBkColor(hdc, bgcolor);
+    DrawText(hdc, text, len, &rect, DT_WORDBREAK);
+}
+
+TagStyle::TagStyle(HDC m_hdc)
+{
+    hdc = m_hdc;
+    hFont = CreateFont(14, 0, 0, 0, FW_SEMIBOLD, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_OUTLINE_PRECIS,
+                       CLIP_DEFAULT_PRECIS, PROOF_QUALITY, VARIABLE_PITCH, TEXT("Consolas"));
+    textColor = RGB(50, 130, 214);
+    bgcolor = RGB(37, 37, 38);
+}
+
+DescriptionStyle::DescriptionStyle(HDC m_hdc)
+{
+    hdc = m_hdc;
+    hFont = CreateFont(12, 0, 0, 0, FW_REGULAR, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_OUTLINE_PRECIS,
+                       CLIP_DEFAULT_PRECIS, PROOF_QUALITY, VARIABLE_PITCH, TEXT("Consolas"));
+    textColor = RGB(240, 240, 240);
+    bgcolor = RGB(30, 30, 30);
+}
+
+TitleStyle::TitleStyle(HDC m_hdc)
+{
+    hdc = m_hdc;
+    hFont = CreateFont(14, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_OUTLINE_PRECIS,
+                       CLIP_DEFAULT_PRECIS, PROOF_QUALITY, VARIABLE_PITCH, TEXT("Consolas"));
+    textColor = RGB(67, 138, 73);
+    bgcolor = RGB(37, 37, 38);
+}
+
+// class Printer
+// {
+// public:
+//     std::string model;
+//     int year;
+//     Printer(std::string x, std::string y, int z)
+//     {
+//         model = y;
+//         year = z;
+//     }
+
+//     void printname()
+//     {
+//         std::cout << "Geekname is: " << year;
+//     }
+// };
+
 void print_chrome_texts(HWND hwnd)
 {
 
     PAINTSTRUCT ps;
     HDC hdc = BeginPaint(hwnd, &ps);
 
-    // int y_pos = 0;
-    // const int array_size = 3;
-    // wchar_t *text_array[array_size] = {
-    //     L"Hello World!",
-    //     L"This is a hello world application made in the Win32 API",
-    //     L"This example was made by some random dude, aka -LeetGamer-"};
+    RECT rect;
+    SetRect(&rect, 10, 10, 100, 100);
 
-    // std::wcout << "len : " << wcslen(text_array[1]) << std::endl;
-    // std::wcout << "pointer : " << text_array[3] << std::endl;
-
-    // for (int i = 0; i < array_size; i++, y_pos += 20)
-    // {
-    //     TextOut(hdc, 5, y_pos, text_array[i], wcslen(text_array[i]));
-    // }
-
-    // TextOut(hdc, 5, 5, str, wcslen(str));
-
-    print_tag(hdc);
-    print_description(hdc);
-    print_title(hdc);
+    TitleStyle title_style = TitleStyle(hdc);
+    title_style.print(L"Ctrl+ Shift + C", 4, rect);
 
     EndPaint(hwnd, &ps);
 }
