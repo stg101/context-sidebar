@@ -1,8 +1,4 @@
 #include "texts.h"
-#include "rapidjson/document.h"
-#include "rapidjson/writer.h"
-#include "rapidjson/stringbuffer.h"
-#include <iostream>
 
 using namespace rapidjson;
 
@@ -58,25 +54,14 @@ TitleStyle::TitleStyle(HDC m_hdc)
 //     }
 // };
 
-int read_json()
+void load_json()
 {
-    // 1. Parse a JSON string into DOM.
-    const char* json = "{\"project\":\"rapidjson\",\"stars\":10}";
-    Document d;
-    d.Parse(json);
+    FILE *fp = fopen("contexts.json", "rb"); // non-Windows use "r"
+    char readBuffer[65536];
+    FileReadStream is(fp, readBuffer, sizeof(readBuffer));
 
-    // 2. Modify it by DOM.
-    Value& s = d["stars"];
-    s.SetInt(s.GetInt() + 1);
-
-    // 3. Stringify the DOM
-    StringBuffer buffer;
-    Writer<StringBuffer> writer(buffer);
-    d.Accept(writer);
-
-    // Output {"project":"rapidjson","stars":11}
-    std::cout << buffer.GetString() << std::endl;
-    return 0;
+    doc.ParseStream(is);
+    fclose(fp);
 }
 
 void print_chrome_texts(HWND hwnd)
@@ -91,61 +76,14 @@ void print_chrome_texts(HWND hwnd)
     TitleStyle title_style = TitleStyle(hdc);
     title_style.print(L"Ctrl+ Shift + C", 4, rect);
 
+    for (rapidjson::Value::ConstValueIterator itr = doc["contexts"].Begin(); itr != doc["contexts"].End(); ++itr)
+    { // Ok
+        if (itr->HasMember("title"))
+        {                                                  // Ok
+            auto somestring = (*itr)["title"].GetString(); // bingo
+            std::cout << somestring << std::endl;
+        }
+    }
+
     EndPaint(hwnd, &ps);
-}
-
-void print_tag(HDC hdc)
-{
-    // max : 13  chars one line
-
-    HFONT hFont = CreateFont(14, 0, 0, 0, FW_SEMIBOLD, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_OUTLINE_PRECIS,
-                             CLIP_DEFAULT_PRECIS, PROOF_QUALITY, VARIABLE_PITCH, TEXT("Consolas"));
-
-    SelectObject(hdc, hFont);
-
-    const COLORREF textColor = RGB(50, 130, 214);
-    const COLORREF bgcolor = RGB(37, 37, 38);
-
-    SetTextColor(hdc, textColor);
-    SetBkColor(hdc, bgcolor);
-
-    RECT rect;
-    SetRect(&rect, 10, 10, 90, 38);
-    DrawText(hdc, L"Ctrl+ Shift + C", 15, &rect, DT_WORDBREAK);
-}
-
-void print_description(HDC hdc)
-{
-    HFONT hFont = CreateFont(12, 0, 0, 0, FW_REGULAR, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_OUTLINE_PRECIS,
-                             CLIP_DEFAULT_PRECIS, PROOF_QUALITY, VARIABLE_PITCH, TEXT("Consolas"));
-
-    SelectObject(hdc, hFont);
-
-    const COLORREF textColor = RGB(240, 240, 240);
-    const COLORREF bgcolor = RGB(30, 30, 30);
-
-    SetTextColor(hdc, textColor);
-    SetBkColor(hdc, bgcolor);
-
-    RECT rect;
-    SetRect(&rect, 10, 40, 90, 74);
-    DrawText(hdc, L"xxx xxx xxxxx xxxx", 20, &rect, DT_WORDBREAK);
-}
-
-void print_title(HDC hdc)
-{
-    HFONT hFont = CreateFont(14, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_OUTLINE_PRECIS,
-                             CLIP_DEFAULT_PRECIS, PROOF_QUALITY, VARIABLE_PITCH, TEXT("Consolas"));
-
-    SelectObject(hdc, hFont);
-
-    const COLORREF textColor = RGB(67, 138, 73);
-    const COLORREF bgcolor = RGB(37, 37, 38);
-
-    SetTextColor(hdc, textColor);
-    SetBkColor(hdc, bgcolor);
-
-    RECT rect;
-    SetRect(&rect, 10, 80, 90, 108);
-    DrawText(hdc, L"Chrome", 6, &rect, DT_WORDBREAK);
 }

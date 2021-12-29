@@ -41,8 +41,9 @@ void CALLBACK WinEventProc(
         idChild == CHILDID_SELF &&
         event == EVENT_SYSTEM_FOREGROUND)
     {
-
+        context_url = getAppName(hwnd);
         std::wcout << hwnd << " || " << getText(hwnd) << " || " << getAppName(hwnd) << std::endl;
+        // std::cout << context_url << std::endl;
         // std::wcout << hwnd << " || " << getText(hwnd) << std::endl;
         // std::wcout << hwnd << std::endl;
     }

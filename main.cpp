@@ -5,18 +5,19 @@
 #include <wingdi.h>
 #include <mmsystem.h>
 #include <iostream>
-
+#include "rapidjson/document.h"
 #include "utils.h"
 #include "texts.h"
 
 ///////////////////////////////////////////////////////////////////////////
 // create window
 const wchar_t g_szClassName[] = L"myWindowClass";
+std::wstring context_url;
+rapidjson::Document doc;
 
 // Step 4: the Window Procedure
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-
     switch (msg)
     {
     case WM_CLOSE:
@@ -27,10 +28,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
         break;
     case WM_PAINT:
     {
-
         print_chrome_texts(hwnd);
     }
-
     break;
     default:
         return DefWindowProc(hwnd, msg, wParam, lParam);
@@ -41,6 +40,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
                    LPSTR lpCmdLine, int nCmdShow)
 {
+    load_json();
     // ############################# hook foreground change
     HWINEVENTHOOK hWinEventHook = SetWinEventHook(
         EVENT_SYSTEM_FOREGROUND, EVENT_SYSTEM_FOREGROUND,
@@ -65,8 +65,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     wc.lpszClassName = g_szClassName;
     wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
     wc.hbrBackground = CreateSolidBrush(RGB(37, 37, 38));
-
-    read_json();
 
     if (!RegisterClassEx(&wc))
     {

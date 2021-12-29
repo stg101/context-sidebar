@@ -1,0 +1,54 @@
+{
+    "contexts" : [
+        {   
+            "title": "vscode",
+            "match_url" : "Microsoft VS Code\\Code.exe",
+            "content" : [ 
+                {
+                    "title" : "asd",
+                    "commands": [
+                        {"key": "Ctrl + C", "description": "asdfg adg"},
+                        {"key": "Ctrl + C", "description": "asdfg adg"},
+                        {"key": "Ctrl + C", "description": "asdfg adg"}
+                    ]
+                },
+                {
+                    "title" : "asd",
+                    "commands": [
+                        {"key": "Ctrl + C", "description": "asdfg adg"},
+                        {"key": "Ctrl + C", "description": "asdfg adg"},
+                        {"key": "Ctrl + C", "description": "asdfg adg"}
+                    ]
+                }
+            ]
+        },
+        {   
+            "title": "console",
+            "match_url" : "Microsoft.WindowsTerminal",
+            "content" : [ 
+                {
+                    "title" : "asd",
+                    "commands": []
+                },
+                {
+                    "title" : "asd",
+                    "commands": []
+                }
+            ]
+        },
+        {   
+            "title": "chrome",
+            "match_url" : "chrome.exe",
+            "content" : [ 
+                {
+                    "title" : "asd",
+                    "commands": []
+                },
+                {
+                    "title" : "asd",
+                    "commands": []
+                }
+            ]
+        }
+    ]
+}
