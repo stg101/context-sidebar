@@ -32,9 +32,9 @@ public:
     COLORREF textColor;
     COLORREF bgcolor;
     HDC hdc;
-    int height;
+    int padding;
 
-    void print(const wchar_t *text, RECT rect);
+    RECT print(const wchar_t *text, RECT rect);
 };
 
 #endif
@@ -66,5 +66,15 @@ class TitleStyle : public TextStyle
 {
 public:
     TitleStyle(HDC _hdc);
+};
+#endif
+
+#ifndef ContextStyle_H
+#define ContextStyle_H
+
+class ContextStyle : public TextStyle
+{
+public:
+    ContextStyle(HDC _hdc);
 };
 #endif

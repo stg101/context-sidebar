@@ -2,12 +2,15 @@
 
 using namespace rapidjson;
 
-void TextStyle::print(const wchar_t *text, RECT rect)
+RECT TextStyle::print(const wchar_t *text, RECT rect)
 {
     SelectObject(hdc, hFont);
     SetTextColor(hdc, textColor);
     SetBkColor(hdc, bgcolor);
+    DrawText(hdc, text, wcslen(text), &rect, DT_WORDBREAK | DT_CALCRECT);
     DrawText(hdc, text, wcslen(text), &rect, DT_WORDBREAK);
+
+    return rect;
 }
 
 TagStyle::TagStyle(HDC m_hdc)
@@ -17,7 +20,7 @@ TagStyle::TagStyle(HDC m_hdc)
                        CLIP_DEFAULT_PRECIS, PROOF_QUALITY, VARIABLE_PITCH, TEXT("Consolas"));
     textColor = RGB(50, 130, 214);
     bgcolor = RGB(37, 37, 38);
-    height = 16;
+    padding = 4;
 }
 
 DescriptionStyle::DescriptionStyle(HDC m_hdc)
@@ -27,35 +30,29 @@ DescriptionStyle::DescriptionStyle(HDC m_hdc)
                        CLIP_DEFAULT_PRECIS, PROOF_QUALITY, VARIABLE_PITCH, TEXT("Consolas"));
     textColor = RGB(240, 240, 240);
     bgcolor = RGB(30, 30, 30);
-    height = 24;
+    padding = 8;
 }
 
 TitleStyle::TitleStyle(HDC m_hdc)
 {
     hdc = m_hdc;
-    hFont = CreateFont(12, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_OUTLINE_PRECIS,
+    hFont = CreateFont(14, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_OUTLINE_PRECIS,
                        CLIP_DEFAULT_PRECIS, PROOF_QUALITY, VARIABLE_PITCH, TEXT("Consolas"));
     textColor = RGB(67, 138, 73);
     bgcolor = RGB(37, 37, 38);
-    height = 28;
+    padding = 8;
 }
 
-// class Printer
-// {
-// public:
-//     std::string model;
-//     int year;
-//     Printer(std::string x, std::string y, int z)
-//     {
-//         model = y;
-//         year = z;
-//     }
+ContextStyle::ContextStyle(HDC m_hdc)
+{
+    hdc = m_hdc;
+    hFont = CreateFont(15, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_OUTLINE_PRECIS,
+                       CLIP_DEFAULT_PRECIS, PROOF_QUALITY, VARIABLE_PITCH, TEXT("Consolas"));
+    textColor = RGB(240, 240, 240);
+    bgcolor = RGB(37, 37, 38);
+    padding = 10;
+}
 
-//     void printname()
-//     {
-//         std::cout << "Geekname is: " << year;
-//     }
-// };
 
 void load_json()
 {
@@ -109,6 +106,7 @@ void print_chrome_texts(HWND hwnd)
     TitleStyle title_style = TitleStyle(hdc);
     DescriptionStyle description_style = DescriptionStyle(hdc);
     TagStyle tag_style = TagStyle(hdc);
+    ContextStyle context_style = ContextStyle(hdc);
     RECT rect;
 
     for (rapidjson::Value::ConstValueIterator itr = doc["contexts"].Begin(); itr != doc["contexts"].End(); ++itr)
@@ -124,38 +122,38 @@ void print_chrome_texts(HWND hwnd)
 
                 std::wcout << title << " : " << wcslen(title) << std::endl;
 
-                SetRect(&rect, 10, cursor, 100, cursor + title_style.height);
-                title_style.print(title, rect);
+                SetRect(&rect, 10, cursor, 100, cursor + context_style.padding);
+                RECT calc_rect_title = context_style.print(title, rect);
 
-                cursor = cursor + title_style.height;
+                cursor = calc_rect_title.bottom + context_style.padding;
 
                 for (rapidjson::Value::ConstValueIterator itrContent = (*itr)["content"].Begin(); itrContent != (*itr)["content"].End(); ++itrContent)
                 {
                     auto content_title_str = (*itrContent)["title"].GetString();
                     const wchar_t *content_title = wstring2wchar_t(utf8toUtf16(content_title_str));
 
-                    SetRect(&rect, 10, cursor, 100, cursor + title_style.height);
-                    title_style.print(content_title, rect);
+                    SetRect(&rect, 10, cursor, 100, cursor + title_style.padding);
+                    RECT calc_rect_sub = title_style.print(content_title, rect);
 
-                    cursor = cursor + title_style.height;
+                    cursor = calc_rect_sub.bottom + title_style.padding;
 
                     for (rapidjson::Value::ConstValueIterator itrCommand = (*itrContent)["commands"].Begin(); itrCommand != (*itrContent)["commands"].End(); ++itrCommand)
                     {
                         auto key_str = (*itrCommand)["key"].GetString();
                         const wchar_t *key = wstring2wchar_t(utf8toUtf16(key_str));
 
-                        SetRect(&rect, 10, cursor, 100, cursor + tag_style.height);
-                        tag_style.print(key, rect);
+                        SetRect(&rect, 10, cursor, 100, cursor + tag_style.padding);
+                        RECT calc_rect_tag = tag_style.print(key, rect);
 
-                        cursor = cursor + tag_style.height;
+                        cursor = calc_rect_tag.bottom + tag_style.padding;
 
                         auto desc_str = (*itrCommand)["description"].GetString();
                         const wchar_t *desc = wstring2wchar_t(utf8toUtf16(desc_str));
 
-                        SetRect(&rect, 10, cursor, 100, cursor + description_style.height);
-                        description_style.print(desc, rect);
+                        SetRect(&rect, 10, cursor, 100, cursor + description_style.padding);
+                        RECT calc_rect_desc = description_style.print(desc, rect);
 
-                        cursor = cursor + description_style.height;
+                        cursor = calc_rect_desc.bottom + description_style.padding;
                     }
                 }
 
