@@ -14,6 +14,7 @@
 const wchar_t g_szClassName[] = L"myWindowClass";
 std::wstring context_url;
 rapidjson::Document doc;
+HWND this_hwnd;
 
 // Step 4: the Window Procedure
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -48,7 +49,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
         WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS);
     // ########################## create window
     WNDCLASSEX wc;
-    HWND hwnd;
+    // HWND hwnd;
     MSG Msg;
 
     //Step 1: Registering the Window Class
@@ -73,21 +74,21 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
         return 0;
     }
 
-    hwnd = createAppWindow(g_szClassName, hInstance, 100);
+    this_hwnd = createAppWindow(g_szClassName, hInstance, 100);
 
     // Step 2: Creating the Window
 
-    if (hwnd == NULL)
+    if (this_hwnd == NULL)
     {
         MessageBox(NULL, L"Window Creation Failed!", L"Error!",
                    MB_ICONEXCLAMATION | MB_OK);
         return 0;
     }
 
-    SetWindowLong(hwnd, GWL_STYLE, 0);
+    SetWindowLong(this_hwnd, GWL_STYLE, 0);
 
-    ShowWindow(hwnd, nCmdShow);
-    UpdateWindow(hwnd);
+    ShowWindow(this_hwnd, nCmdShow);
+    UpdateWindow(this_hwnd);
 
     // Step 3: The Message Loop
     while (GetMessage(&Msg, NULL, 0, 0))

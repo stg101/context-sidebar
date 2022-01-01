@@ -10,6 +10,7 @@ std::wstring getText(HWND hwnd);
 std::wstring getAppName(HWND hwnd);
 
 extern std::wstring context_url;
+extern HWND this_hwnd;
 
 void CALLBACK WinEventProc(
     HWINEVENTHOOK hWinEventHook,

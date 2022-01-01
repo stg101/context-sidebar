@@ -7,7 +7,15 @@
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
 #include "rapidjson/filereadstream.h"
-#include <iostream>
+#include <stdexcept>
+#include <vector>
+#include <windows.h>
+#include <type_traits>
+
+using std::runtime_error;
+using std::string;
+using std::vector;
+using std::wstring;
 
 void print_chrome_texts(HWND hwnd);
 void load_json();
@@ -25,7 +33,7 @@ public:
     COLORREF bgcolor;
     HDC hdc;
 
-    void print(wchar_t *text, int len, RECT rect);
+    void print(const wchar_t *text, RECT rect);
 };
 
 #endif
