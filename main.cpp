@@ -5,9 +5,11 @@
 #include <wingdi.h>
 #include <mmsystem.h>
 #include <iostream>
+#include <winuser.h>
 #include "rapidjson/document.h"
 #include "utils.h"
 #include "texts.h"
+#define IDC_CLOSE__BUTTON (100)
 
 ///////////////////////////////////////////////////////////////////////////
 // create window
@@ -23,6 +25,12 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     {
     case WM_CLOSE:
         DestroyWindow(hwnd);
+        break;
+    case WM_COMMAND:
+        if (LOWORD(wParam) == IDC_CLOSE__BUTTON)
+        {
+            closeAppWindow(hwnd);
+        }
         break;
     case WM_DESTROY:
         PostQuitMessage(0);
@@ -84,6 +92,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
                    MB_ICONEXCLAMATION | MB_OK);
         return 0;
     }
+
+    HWND hwndButton = CreateWindow(L"BUTTON", L"X", WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON, 82, 0,
+                                   18, 18, this_hwnd, (HMENU)IDC_CLOSE__BUTTON, (HINSTANCE)GetWindowLongPtr(this_hwnd, GWLP_HINSTANCE), NULL);
 
     SetWindowLong(this_hwnd, GWL_STYLE, 0);
 

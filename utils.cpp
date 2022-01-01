@@ -56,6 +56,11 @@ RECT resize(int left)
     return workarea;
 }
 
+void closeAppWindow(HWND hwnd) {
+    DestroyWindow(hwnd);
+    resize(0);
+}
+
 HWND createAppWindow(const wchar_t *g_szClassName, HINSTANCE hInstance, int width)
 {
     RECT workarea;

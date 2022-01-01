@@ -46,7 +46,7 @@ TitleStyle::TitleStyle(HDC m_hdc)
 ContextStyle::ContextStyle(HDC m_hdc)
 {
     hdc = m_hdc;
-    hFont = CreateFont(15, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_OUTLINE_PRECIS,
+    hFont = CreateFont(17, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_OUTLINE_PRECIS,
                        CLIP_DEFAULT_PRECIS, PROOF_QUALITY, VARIABLE_PITCH, TEXT("Consolas"));
     textColor = RGB(240, 240, 240);
     bgcolor = RGB(37, 37, 38);
@@ -100,7 +100,7 @@ void print_chrome_texts(HWND hwnd)
     HDC hdc = BeginPaint(hwnd, &ps);
     auto context_url_str = wstring2string(context_url);
 
-    int cursor = 10;
+    int cursor = 15;
 
     TitleStyle title_style = TitleStyle(hdc);
     DescriptionStyle description_style = DescriptionStyle(hdc);
@@ -166,7 +166,7 @@ void print_chrome_texts(HWND hwnd)
     if (itr == doc["contexts"].End())
     {
         const wchar_t *default_text = L"I'm Context Sidebar. \n\nI can help you find commands easier. :). \n\nJust open an application supported on the contexts. json file. \n\n     __\n .--()°'.'\n'|, . ,'\n !_-(_\\ \n";
-        SetRect(&rect, 10, cursor, 100, cursor + tag_style.padding);
+        SetRect(&rect, 10, 30, 100, 60);
         tag_style.print(default_text, rect);
     }
 
