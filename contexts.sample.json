@@ -5,11 +5,28 @@
             "match_url" : "Microsoft VS Code\\Code.exe",
             "content" : [ 
                 {
-                    "title" : "vim",
+                    "title" : "vim normal mode",
                     "commands": [
-                        {"key": "hjkl", "description": "Basic moves"},
+                        {"key": "h j k l", "description": "Basic moves"},
                         {"key": "n + basic_move", "description": "repeat n times move"},
-                        {"key": "w", "description": "move word by word (start)"}
+                        {"key": "w", "description": "move word by word (start)"},
+                        {"key": "b", "description": "move word by word backwards (start)"},
+                        {"key": "e", "description": "move word by word (end)"},
+                        {"key": "ge", "description": "move word by word backwards (end)"},
+                        {"key": "gg", "description": "go to start of file"},
+                        {"key": "G", "description": "go to end of file"},
+                        {"key": "ctr + u", "description": "move up half screen"},
+                        {"key": "ctr + d", "description": "move down half screen"},
+                        {"key": "dd", "description": "remove and copy"},
+                        {"key": "d + n", "description": "remove n lines"},
+                        {"key": "p", "description": "paste"},
+                        {"key": "ctr + [enter]", "description": "empty line below"}
+                    ]
+                },
+                {
+                    "title": "vscode",
+                    "commands": [
+                        {"key": "alt + arrow", "description": "switch terminals"}
                     ]
                 }
             ]
@@ -19,8 +36,18 @@
             "match_url" : "Microsoft.WindowsTerminal",
             "content" : [ 
                 {
-                    "title" : "asd",
-                    "commands": []
+                    "title" : "tmux",
+                    "commands": [
+                        {"key": "pre + %", "description": "Split vertical"},
+                        {"key": "pre + \"", "description": "Split horizontal"},
+                        {"key": "pre + arrow", "description": "Switch panes"},
+                        {"key": "pre + c", "description": "New window"},
+                        {"key": "pre + [number]", "description": "Switch windows"},
+                        {"key": "pre + ,", "description": "Rename windows"},
+                        {"key": "pre + z", "description": "Zoom"},
+                        {"key": "pre + x", "description": "Remove Panel"},
+                        {"key": "pre + d", "description": "detach"}
+                    ]
                 }
             ]
         },
@@ -29,8 +56,13 @@
             "match_url" : "chrome.exe",
             "content" : [ 
                 {
-                    "title" : "asd",
-                    "commands": []
+                    "title" : "tabs",
+                    "commands": [
+                        {"key": "[ctr] + [tab]", "description": "switch tab to right"},
+                        {"key": "[ctr] + [shift] + [tab]", "description": "witch tab to left"},
+                        {"key": "[ctr] + [shift] + t", "description": "resurrect tab"},
+                        {"key": "[ctr] + w", "description": "kill tab"}
+                    ]
                 }
             ]
         }
