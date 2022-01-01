@@ -53,7 +53,6 @@ ContextStyle::ContextStyle(HDC m_hdc)
     padding = 10;
 }
 
-
 void load_json()
 {
     FILE *fp = fopen("contexts.json", "rb"); // non-Windows use "r"
@@ -109,7 +108,9 @@ void print_chrome_texts(HWND hwnd)
     ContextStyle context_style = ContextStyle(hdc);
     RECT rect;
 
-    for (rapidjson::Value::ConstValueIterator itr = doc["contexts"].Begin(); itr != doc["contexts"].End(); ++itr)
+    rapidjson::Value::ConstValueIterator itr;
+
+    for (itr = doc["contexts"].Begin(); itr != doc["contexts"].End(); ++itr)
     {
         if (itr->HasMember("title"))
         {
@@ -160,6 +161,13 @@ void print_chrome_texts(HWND hwnd)
                 break;
             }
         }
+    }
+
+    if (itr == doc["contexts"].End())
+    {
+        const wchar_t *default_text = L"I'm Context Sidebar. \n\nI can help you find commands easier. :). \n\nJust open an application supported on the contexts. json file. \n\n     __\n .--()°'.'\n'|, . ,'\n !_-(_\\ \n";
+        SetRect(&rect, 10, cursor, 100, cursor + tag_style.padding);
+        tag_style.print(default_text, rect);
     }
 
     // clear window
