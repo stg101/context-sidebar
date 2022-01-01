@@ -32,6 +32,7 @@ public:
     COLORREF textColor;
     COLORREF bgcolor;
     HDC hdc;
+    int height;
 
     void print(const wchar_t *text, RECT rect);
 };
