@@ -67,6 +67,11 @@ void closeAppWindow(HWND hwnd)
     resize(0);
 }
 
+void openContextsFile()
+{
+    ShellExecute(0, 0, L".\\contexts.json", 0, 0, SW_SHOW);
+}
+
 HWND createAppWindow(const wchar_t *g_szClassName, HINSTANCE hInstance, int width)
 {
     RECT workarea;

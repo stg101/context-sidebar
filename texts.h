@@ -17,7 +17,7 @@ using std::string;
 using std::vector;
 using std::wstring;
 
-void print_chrome_texts(HWND hwnd);
+void draw_texts(HWND hwnd);
 void load_json();
 
 extern rapidjson::Document doc;

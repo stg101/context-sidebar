@@ -10,6 +10,7 @@
 #include "utils.h"
 #include "texts.h"
 #define IDC_CLOSE__BUTTON (100)
+#define IDC_OPEN_CONTEXT_FILE (101)
 
 ///////////////////////////////////////////////////////////////////////////
 // create window
@@ -27,17 +28,20 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
         DestroyWindow(hwnd);
         break;
     case WM_COMMAND:
-        if (LOWORD(wParam) == IDC_CLOSE__BUTTON)
-        {
+    {
+        auto param = LOWORD(wParam);
+        if (param == IDC_CLOSE__BUTTON)
             closeAppWindow(hwnd);
-        }
-        break;
+        else if (param == IDC_OPEN_CONTEXT_FILE)
+            openContextsFile();
+    }
+    break;
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
     case WM_PAINT:
     {
-        print_chrome_texts(hwnd);
+        draw_texts(hwnd);
     }
     break;
     default:
@@ -93,8 +97,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
         return 0;
     }
 
-    HWND hwndButton = CreateWindow(L"BUTTON", L"X", WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON, 82, 0,
-                                   18, 18, this_hwnd, (HMENU)IDC_CLOSE__BUTTON, (HINSTANCE)GetWindowLongPtr(this_hwnd, GWLP_HINSTANCE), NULL);
+    CreateWindow(L"BUTTON", L"🗙", WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON, 82, 0,
+                 18, 18, this_hwnd, (HMENU)IDC_CLOSE__BUTTON, (HINSTANCE)GetWindowLongPtr(this_hwnd, GWLP_HINSTANCE), NULL);
+    RECT workarea;
+    SystemParametersInfo(SPI_GETWORKAREA, 0, &workarea, 0);
+
+    CreateWindow(L"BUTTON", L"✎", WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON, 0, workarea.bottom - 18,
+                 18, 18, this_hwnd, (HMENU)IDC_OPEN_CONTEXT_FILE, (HINSTANCE)GetWindowLongPtr(this_hwnd, GWLP_HINSTANCE), NULL);
 
     SetWindowLong(this_hwnd, GWL_STYLE, 0);
 

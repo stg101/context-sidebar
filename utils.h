@@ -25,3 +25,4 @@ RECT resize(int left);
 
 HWND createAppWindow(const wchar_t *g_szClassName, HINSTANCE hInstance, int width);
 void closeAppWindow(HWND hwnd);
+void openContextsFile();

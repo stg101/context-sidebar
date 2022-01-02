@@ -94,7 +94,7 @@ const wchar_t *wstring2wchar_t(std::wstring wide)
     return wcs;
 }
 
-void print_chrome_texts(HWND hwnd)
+void draw_texts(HWND hwnd)
 {
     PAINTSTRUCT ps;
     HDC hdc = BeginPaint(hwnd, &ps);
