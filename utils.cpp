@@ -41,7 +41,12 @@ void CALLBACK WinEventProc(
         idChild == CHILDID_SELF &&
         event == EVENT_SYSTEM_FOREGROUND)
     {
-        context_url = getAppName(hwnd);
+
+        std::wstring current_app_url = getAppName(hwnd);
+        if (current_app_url.find(L"C:\\Windows\\explorer.exe") != std::string::npos)
+            return;
+        context_url = current_app_url;
+
         InvalidateRect(this_hwnd, NULL, TRUE);
     }
 }
@@ -56,7 +61,8 @@ RECT resize(int left)
     return workarea;
 }
 
-void closeAppWindow(HWND hwnd) {
+void closeAppWindow(HWND hwnd)
+{
     DestroyWindow(hwnd);
     resize(0);
 }
