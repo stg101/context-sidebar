@@ -48,6 +48,17 @@
                         {"key": "pre + x", "description": "Remove Panel"},
                         {"key": "pre + d", "description": "detach"}
                     ]
+                },
+                {
+                    "title" : "terminal",
+                    "commands": [
+                        {"key": "ctrl + shift + [space]", "description": "Open Tab Dropdown"},
+                        {"key": "ctrl + shift + d", "description": "Duplicate Tab"},
+                        {"key": "ctrl + tab", "description": "Open Next Tab"},
+                        {"key": "ctrl + shift + tab", "description": "Open Previous Tab"},
+                        {"key": "ctrl + alt + [number]", "description": "Open a specific tab"},
+                        {"key": "ctrl + shift + w", "description": "Close current tab"}
+                    ]
                 }
             ]
         },
@@ -59,9 +70,12 @@
                     "title" : "tabs",
                     "commands": [
                         {"key": "[ctr] + [tab]", "description": "switch tab to right"},
-                        {"key": "[ctr] + [shift] + [tab]", "description": "witch tab to left"},
+                        {"key": "[ctr] + [shift] + [tab]", "description": "switch tab to left"},
                         {"key": "[ctr] + [shift] + t", "description": "resurrect tab"},
-                        {"key": "[ctr] + w", "description": "kill tab"}
+                        {"key": "[ctr] + W", "description": "kill tab"},
+                        {"key": "[ctr] + L", "description": "open search bar"},
+                        {"key": "[ctr] + T", "description": "open new tab"},
+                        {"key": "[ctr] + N", "description": "open new  window"}
                     ]
                 }
             ]
