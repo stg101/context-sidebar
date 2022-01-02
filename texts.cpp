@@ -96,6 +96,7 @@ const wchar_t *wstring2wchar_t(std::wstring wide)
 
 void draw_texts(HWND hwnd)
 {
+    load_json();
     PAINTSTRUCT ps;
     HDC hdc = BeginPaint(hwnd, &ps);
     auto context_url_str = wstring2string(context_url);

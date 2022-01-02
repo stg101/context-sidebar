@@ -53,7 +53,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
                    LPSTR lpCmdLine, int nCmdShow)
 {
-    load_json();
+
     // ############################# hook foreground change
     HWINEVENTHOOK hWinEventHook = SetWinEventHook(
         EVENT_SYSTEM_FOREGROUND, EVENT_SYSTEM_FOREGROUND,
